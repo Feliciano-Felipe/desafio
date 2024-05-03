@@ -1,4 +1,4 @@
-name: gregorio_automacao
+name: feliciano_automacao
 run-name: ${{ github.actor }} Pipeline deploy ⌨️
 on: 
   push:
@@ -7,7 +7,7 @@ on:
     paths-ignore:
       - "*.txt"
 jobs:
-  githubactions-gregorio:
+  githubactions-feliciano:
     runs-on: ubuntu-latest
     steps:
       -  name: Checkout
@@ -16,7 +16,7 @@ jobs:
         run: | 
           sudo apt update -y
           sudo apt-get install figlet -y
-          echo "GREGORIO" | figlet
+          echo "FELICIANO" | figlet
           curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
           chmod +x ./snyk
           sudo mv ./snyk /usr/local/bin/
