@@ -1,35 +1,30 @@
-name: senai_automacao
-run-name: ${{ github.actor }} Pipeline Deploy 🚀
+name: gregorio_automacao
+run-name: ${{ github.actor }} Pipeline deploy ⌨️
 on: 
   push:
     branches:
       - "main"
     paths-ignore:
-      - "docs/**"
-      - "images/**"
-      - "*.md"
-      - "*.dockerignore"
+      - "*.txt"
 jobs:
-  githubactions-senai:
+  githubactions-gregorio:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: INSTALL PACKAGES
-        run: |
+      -  name: Checkout
+         uses: actions/checkout@v4
+      - name: INSTALL PACKGES
+        run: | 
           sudo apt update -y
           sudo apt-get install figlet -y
+          echo "GREGORIO" | figlet
           curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
           chmod +x ./snyk
-          mv ./snyk /usr/local/bin/
-            
-      - name: Snyk Auth
-        run: |
+          sudo mv ./snyk /usr/local/bin/
+      - name: SNYK AUTH
+        run: | 
           snyk -d auth $SNYK_TOKEN
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_AUTH_TOKEN }}
-          
       - name: Configurar AWS CLI
         if: always()
         run: |
@@ -40,15 +35,9 @@ jobs:
           export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
           export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
           export AWS_DEFAULT_REGION="us-east-1"
-        env:
+        env: 
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: DockerLint (CI)
-        run: |
-          echo "DOCKERLINT" | figlet -f small
-          docker run --rm -i hadolint/hadolint < Dockerfile || true
-      
       - name: Docker Login
         if: always()
         uses: docker/login-action@v3
@@ -77,8 +66,6 @@ jobs:
         run: |
           COMMIT_SHA=$(echo $GITHUB_SHA | cut -c 1-5)
           echo $COMMIT_SHA
-
-          docker tag apicontainer:latest <felicianoooo>/apicontainer:$COMMIT_SHA
-          docker push <felicianoooo>/apicontainer:$COMMIT_SHA
-
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          docker tag apicontainer:latest felicianoooo/apicontainer:$COMMIT_SHA
+          docker push felicianoooo/apicontainer:$COMMIT_SHA
+        
