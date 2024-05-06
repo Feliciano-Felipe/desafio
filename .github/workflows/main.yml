@@ -68,4 +68,3 @@ jobs:
           echo $COMMIT_SHA
           docker tag apicontainer:latest felicianoooo/apicontainer:$COMMIT_SHA
           docker push felicianoooo/apicontainer:$COMMIT_SHA
-        
